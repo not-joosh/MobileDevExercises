@@ -1,4 +1,4 @@
- /*======================================================================================================
+/*======================================================================================================
 * FILE        : MachaconRatificar_PE1.1.kt
 * AUTHOR      : Zach Machacon 
 *               Josh Ratificar
@@ -13,76 +13,79 @@
 * accepts 10 students each day. Use an array to store the names and print them alphabetically.
 ===================================================================================================*/
 
-// Definition of Student in Class
-class Student
-{
-    var student_id = 0
-    var name = ""
-}
+// Data class for Student
+data class Student(var studentId: Int, var name: String = "")
 
 // Function to add a student
-fun addStudent(students: Array<Student>)
-{
-    // Check if the class is full
-    for (i in 0 until 10)
-    {
-        if (students[i].name == "")
-        {
-            print("\nEnter the name of the student: ")
-            students[i].name = readLine()!!
-            students[i].student_id = i + 1
-            break
-        }
+fun addStudent(students: MutableList<Student>) {
+    if (students.size >= 10) {
+        println("\nThe class is already full.")
+        return
     }
     
-    println("\nPress Enter to continue...")
-    readLine()
+    print("\nEnter the name of the student: ")
+    val studentName = readLine()?.trim() ?: ""
+    
+    if (studentName.isEmpty()) {
+        println("\nName cannot be empty. Try again.")
+        return
+    }
+    
+    if (students.any { it.name == studentName }) {
+        println("\nStudent with this name is already added. Try again.")
+        return
+    }
+
+    students.add(Student(students.size + 1, studentName))
+    println("\nStudent added successfully.")
 }
 
 // Function to print the students
-fun printStudents(students: Array<Student>)
-{
-    // Sorting the students
-    students.sortBy { it.name }
-
-    // Printing the students
-    println("\nLIST:\n")
-    for (i in 0 until 10)
-    {
-        if (students[i].name != "")
-        {
-            println("\nStudent ID: ${students[i].student_id} Name: ${students[i].name}")
-        }
+fun printStudents(students: MutableList<Student>) {
+    if (students.isEmpty()) {
+        println("\nNo students to display.")
+        return
     }
 
-    println("\nPress Enter to continue...")
-    readLine()
+    // Sorting the students alphabetically by name
+    val sortedStudents = students.sortedBy { it.name }
+
+    println("\nLIST OF STUDENTS:\n")
+    println("-------------------------------------------------")
+    println("| %-10s | %-20s |".format("Student ID", "Name"))
+    println("-------------------------------------------------")
+
+    sortedStudents.forEach { student ->
+        println("| %-10d | %-20s |".format(student.studentId, student.name))
+    }
+
+    println("-------------------------------------------------")
 }
 
 // Main Function
 fun main() {
-    // Array to store the names of the students
-    var students = Array<Student>(10) { Student() }
+    val students = mutableListOf<Student>()
     var isMenu = true
-    var choice = 0
 
-    // Making a menu
     while (isMenu) {
-        // CLearing the Screen
+        // Clear the Screen (might not work in all environments)
         println("\u001b[H\u001b[2J")
-
-        // PRinting the menu
+        
         println("1. Add Student")
         println("2. Print Students")
         println("3. Exit")
         print("Enter your choice: ")
-        choice = readLine()!!.toInt()
+
+        val choice = readLine()?.toIntOrNull() ?: -1
 
         when (choice) {
             1 -> addStudent(students)
             2 -> printStudents(students)
             3 -> isMenu = false
-            else -> println("Invalid choice")
+            else -> println("Invalid choice. Please enter a number between 1 and 3.")
         }
+
+        println("\nPress Enter to continue...")
+        readLine()
     }
 }
