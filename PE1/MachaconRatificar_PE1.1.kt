@@ -7,11 +7,6 @@
 * REVISION HISTORY:
 *   19 June, 2024: V1.0 - File Created
 ======================================================================================================*/
-/*=================================== Program Prompt ==========================================
-* 1 ) A teacher at an elementary school has organized an after-school recreation class. He asks you
-* to create a program that will allow him to track which students attend the class. The class only
-* accepts 10 students each day. Use an array to store the names and print them alphabetically.
-===================================================================================================*/
 
 // Data class for Student
 data class Student(var studentId: Int, var name: String = "")

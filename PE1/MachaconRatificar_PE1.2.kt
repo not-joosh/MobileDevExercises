@@ -7,12 +7,6 @@
 * REVISION HISTORY:
 *   19 June, 2024: V1.0 - File Created
 ======================================================================================================*/
-/*=================================== Program Prompt ==========================================
-* 2 ) A teacher at an elementary school has organized an after-school recreation class. He asks you
-* to create a program that will allow him to track which students attend the class and what activity 
-* they participate in. The class only accepts 10 students each day. Use a map to store the names and 
-* activities, and print them alphabetically by name.
-===================================================================================================*/
 
 // Data class for Student
 data class Student(var studentId: Int, var name: String = "", var activity: String = "")

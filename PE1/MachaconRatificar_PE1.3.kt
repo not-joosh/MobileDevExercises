@@ -7,10 +7,6 @@
 * REVISION HISTORY:
 *   19 June, 2024: V1.0 - File Created
 ======================================================================================================*/
-/*=================================== Program Prompt ==========================================
-* 3) A bookstore needs a system to manage shirt orders with quotes from famous authors. The system should
-* allow employees to enter order details and store them for end-of-day processing.
-===================================================================================================*/
 
 import java.util.*
 
@@ -41,6 +37,17 @@ class Bookstore {
         3 to "Have faith in your abilities!"
     )
 
+    private val sizeOptions = mapOf(
+        1 to "small",
+        2 to "medium",
+        3 to "large",
+        4 to "extra-large"
+    )
+    private val locationOptions = mapOf(
+        1 to "front",
+        2 to "back"
+    )
+
     fun addOrder() {
         val scanner = Scanner(System.`in`)
         println("\nEnter your name: ")
@@ -49,24 +56,23 @@ class Bookstore {
         println("Enter your gender: ")
         val gender = scanner.nextLine().trim()
 
-        println("Choose a shirt color (red, green, black, blue): ")
+        println("Choose a shirt color: ")
         val color = scanner.nextLine().trim().toLowerCase()
         
-        println("Choose a shirt size (small, medium, large): ")
-        val size = scanner.nextLine().trim().toLowerCase()
+        println("Choose a shirt size:")
+        sizeOptions.forEach { (key, value) -> println("$key. $value") }
+        val sizeChoice = scanner.nextInt()
+        val size = sizeOptions[sizeChoice] ?: "small"  // Default to small if invalid
 
-        println("Choose a quote: ")
+        println("Choose a quote:")
         quoteChoices.forEach { (key, value) -> println("$key. $value") }
         val quoteChoice = scanner.nextInt()
-
-        if (quoteChoice !in quoteChoices.keys) {
-            println("Invalid choice. Order not added.")
-            return
-        }
         val quote = quoteChoices[quoteChoice] ?: ""
 
-        println("Where would you like the quote printed? (front/back): ")
-        val location = scanner.next().trim().toLowerCase()
+        println("Where would you like the quote printed?")
+        locationOptions.forEach { (key, value) -> println("$key. $value") }
+        val locationChoice = scanner.nextInt()
+        val location = locationOptions[locationChoice] ?: "front"  // Default to front if invalid
 
         val orderNumber = orders.size + 1
         val newOrder = ShirtOrder(orderNumber, name, gender, color, size, quote, location)
@@ -82,9 +88,9 @@ class Bookstore {
 
         println("\nTotal Number of Orders = ${orders.size}")
         println("Order Summary")
-        println("--------------------------------------------------------------------------------")
+        println("-------------------------------------------------------------------------------------------------------")
         println("| Order Number | Name         | Gender | Color   | Size  | Quote                           | Location |")
-        println("--------------------------------------------------------------------------------")
+        println("-------------------------------------------------------------------------------------------------------")
         
         orders.forEach { order ->
             println("| %-12d | %-12s | %-6s | %-7s | %-5s | %-30s | %-8s |".format(
